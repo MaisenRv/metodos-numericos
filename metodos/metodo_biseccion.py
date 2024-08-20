@@ -38,7 +38,7 @@ def formato_texto(datos, headers = False):
         text += f'{dato.center(15)}|'
     print(text)
 
-def main():
+def met_biseccion():
     len_text = 0
     func = input('Ingrese la funcion (Ejemplo "x**3 + 4 * x**2 - 10"), f(x) = ')
     try:
@@ -84,9 +84,6 @@ def main():
     print(''.ljust(len_text,'-') + '\n')
     if xa == xb:
         print('NO EXISTEN RESULTADOS CONCLUYENTES\n')
-
-if __name__ == "__main__":
-    main()
 
 
 

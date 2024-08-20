@@ -1,0 +1,12 @@
+numpy
+scipy
+sympy
+pandas
+statsmodels
+scikit-learn
+pymc3
+matplotlib
+seaborn
+plotly
+bokeh
+altair
