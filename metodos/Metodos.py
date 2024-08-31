@@ -1,6 +1,5 @@
 import sys
 import math
-import sympy as sp
 from metodos.utils.Utils import Utils_Metodos as U
 
 class Metodos:
@@ -49,7 +48,7 @@ class Metodos:
         
         iteracion = 1
 
-        print('\nMETODO BISECCION\n')
+        print('\n-----------------METODO BISECCION-----------------\n')
         while error_porcentual > self.err:
             if(xr == None):
                 error_porcentual = self.calcular_error(self.calcular_xr(xa,xb), 100000)
@@ -70,7 +69,7 @@ class Metodos:
                 break
             self.u.formato_texto([f'{iteracion}',f'{resultado:.5f}',f'{xa:.5f}',f'{xb:.5f}',f'{xr:.5f}',f'{error_porcentual:.5f}'])
             iteracion += 1
-        print(''.ljust(len_text,'-') + '\n')
+        self.u.linea_final(len_text)
         if xa == xb:
             print('NO EXISTEN RESULTADOS CONCLUYENTES\n')
 
@@ -79,6 +78,7 @@ class Metodos:
         # ((-x**3 + 10)/(4))**(1/2)
         try:
             x_inicial = input('X inicial para el metodo de punto fijo (Por defecto X = 0): ')
+            max_iteraciones = int (input('Numero de maximas iterlaciones (bucle infinito): '))
             if x_inicial == '':
                 x_inicial = 0
             else:
@@ -90,23 +90,94 @@ class Metodos:
 
         err = math.inf
         headers = ['Iteracion','X anterior','Resultado','Error']
-        print('\nMETODO PUNTO FIJO\n')
+        print('\n-----------------METODO PUNTO FIJO-----------------\n')
         len_text = self.u.formato_texto(headers,headers=True)
         con = 0
-        while err > self.err :
+        while err > self.err and max_iteraciones > con:
             x_actual = self.u.evaluar_funcion(x_anterior, self.func_punto_fijo)
             err = self.calcular_error(x_actual,x_anterior)
             self.u.formato_texto([f'{con}',f'{x_anterior:.5f}',f'{x_actual:.5f}',f'{err:.5f}'])
             x_anterior = x_actual
             
             con += 1
-        print(''.ljust(len_text,'-') + '\n')
+        self.u.linea_final(len_text)
+
 # -------------------------------------------------------------------------------------------------------------
+    def newton_rapson(self):
+        try:
+            x_inicial = input('X inicial para el metodo de Newton Rapson (Por defecto X = 0): ')
+            # max_iteraciones = int (input('Numero de maximas iterlaciones (bucle infinito): '))
+            if x_inicial == '':
+                x_inicial = 0
+            else:
+                x_inicial = float(x_inicial)
+        except ValueError: self.u.value_error()
+
+        x_anterior = x_inicial
+        x_actual = None
+
+        err = math.inf
+        print('\n-----------------METODO NEWTON-----------------\n')
+        headers = ['Iteracion','X anterior','Resultado','Error']
+        len_text = self.u.formato_texto(headers,headers=True)
+        con = 0
+        while err > self.err:
+            x_actual = x_anterior - (self.u.evaluar_funcion(x_anterior, self.func) / self.u.evaluar_f_derivada(x_anterior ,self.func) )
+            err = self.calcular_error(x_actual, x_anterior)
+            try:
+                self.u.formato_texto([f'{con}',f'{x_anterior:.5f}',f'{x_actual:.5f}',f'{err:.5f}'])
+            except TypeError:
+                print('\n-> PUEDE QUE LA FUNCION O SU DERIVADA NO ESTE DEFINIDA EN X INICIAL\n')
+                sys.exit()
+            x_anterior = x_actual
+
+            con += 1
+        self.u.linea_final(len_text)
+# -------------------------------------------------------------------------------------------------------------
+    def met_secante(self):
+        try:
+            x_1 = input('X 1 para el metodo de secante (Por defecto X = 0): ')
+            x_0 = float(input('X 0 para el metodo de secante: '))
+            # max_iteraciones = int (input('Numero de maximas iterlaciones (bucle infinito): '))
+            if x_1 == '':
+                x_1 = 0
+            else:
+                x_1 = float(x_1)
+        except ValueError: self.u.value_error()
+
+        x_anterior = x_0
+        x_actual = x_1
+        x_nueva = 0
+        err = math.inf
+        print('\n-----------------METODO SECANTE-----------------\n')
+        headers = ['Iteracion','x_0','x_1','Resultado','Error']
+        len_text = self.u.formato_texto(headers,headers=True)
+        con = 0
+        
+        while err > self.err:
+            x_nueva = (x_actual - 
+                            (
+                                (self.u.evaluar_funcion(x_actual, self.func) * (x_anterior - x_actual))
+                                / (self.u.evaluar_funcion(x_anterior, self.func) - self.u.evaluar_funcion(x_actual, self.func))
+                            )
+                        )
+            err = self.calcular_error(x_nueva, x_actual)
+            self.u.formato_texto([f'{con}',f'{x_anterior:.5f}',f'{x_actual:.5f}',f'{x_nueva:.5}',f'{err:.5f}'])
+
+            x_anterior = x_actual
+            x_actual = x_nueva
+
+            con += 1
+        self.u.linea_final(len_text)
+
+
 
 
     def all_methods(self):
         self.met_biseccion()
         self.punto_fijo()
+        self.newton_rapson()
+        self.met_secante()
 
 
 

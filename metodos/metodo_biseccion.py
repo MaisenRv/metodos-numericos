@@ -42,8 +42,8 @@ def met_biseccion():
     len_text = 0
     func = input('Ingrese la funcion (Ejemplo "x**3 + 4 * x**2 - 10"), f(x) = ')
     try:
-        xa = float(input('Ingrese Xa: ')) # 1
-        xb = float(input('Ingrese Xb: ')) # 2
+        xa = float(input('Ingrese Xa: '))
+        xb = float(input('Ingrese Xb: ')) 
         error_maximo = float(input('Ingrese el error maximo ( En un rango de 100 a 0): '))
         if error_maximo > 100 or error_maximo < 0:
             print('\n -> EL ERROR MAXIMO DEBER ESTA EN UN INTERVALO DE [100, 0] \n')
@@ -54,9 +54,6 @@ def met_biseccion():
     xr = None
     error_porcentual = math.inf
     resultado = 0
-
-    # Funcion original
-    # func = 'x**3 + 4 * x**2 - 10'
 
     headers = ['Iteracion', 'f(Xa) * f(Xr)','Resultado Xa','Resultado Xb','Resultado Xr','Err porcentual']
     
