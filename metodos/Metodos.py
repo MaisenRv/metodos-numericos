@@ -106,7 +106,7 @@ class Metodos:
     def newton_rapson(self):
         try:
             x_inicial = input('X inicial para el metodo de Newton Rapson (Por defecto X = 0): ')
-            # max_iteraciones = int (input('Numero de maximas iterlaciones (bucle infinito): '))
+            max_iteraciones = int (input('Numero de maximas iterlaciones (bucle infinito): '))
             if x_inicial == '':
                 x_inicial = 0
             else:
@@ -174,10 +174,10 @@ class Metodos:
 
 
     def all_methods(self):
-        self.met_biseccion()
-        self.punto_fijo()
+        # self.met_biseccion()
+        # self.punto_fijo()
         self.newton_rapson()
-        self.met_secante()
+        # self.met_secante()
 
 
 
